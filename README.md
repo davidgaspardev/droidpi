@@ -1,4 +1,4 @@
-# AndroiDPI
+# DroiDPI
 
 ## What do I want to do with this ?
 

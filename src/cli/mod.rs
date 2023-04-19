@@ -4,11 +4,13 @@ use std::collections::HashMap;
 
 pub const IMAGE_PATH: &'static str = "--imagepath";
 pub const FLUTTER_PATH: &'static str = "--flutterpath";
+pub const IMAGE_NAME: &'static str = "--name";
 
 // Possible arguments for configuration 
 const POSSIBLE_ARGS: &'static[&'static str] = &[
     IMAGE_PATH,
-    FLUTTER_PATH
+    FLUTTER_PATH,
+    IMAGE_NAME
 ];
 
 pub fn get_arguments() -> Result<HashMap<String, String>, String> {

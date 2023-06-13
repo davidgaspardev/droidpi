@@ -1,5 +1,8 @@
 extern crate image;
 
+use std::fs;
+use std::io::ErrorKind;
+
 mod cli;
 mod resize;
 
@@ -24,11 +27,30 @@ fn main() {
                 Err(err) => println!("{}", err),
                 Ok(img ) => {
                     /* Resize image to flutter suport */
-                    let r = resize::Resize::new(img, image_name.to_string());
-                    r.create_xxhdpi();
-                    r.create_xhdpi();
-                    r.create_hdpi();
-                    r.create_mdpi();
+                    let r: resize::Resize = resize::Resize::new(img, image_name.to_string());
+
+                    let all_path = [
+                        format!("{}", flutter_path),
+                        format!("{}/1.5x", flutter_path),
+                        format!("{}/2.0x", flutter_path),
+                        format!("{}/3.0x", flutter_path),
+                        format!("{}/4.0x", flutter_path)
+                    ];
+                    
+
+                    match fs::create_dir_all(flutter_path) {
+                        Ok(_) => {
+                            r.create_mdpi(&all_path[0]);
+                            r.create_hdpi(&all_path[1]);
+                            r.create_xhdpi(&all_path[2]);
+                            r.create_xxhdpi(&all_path[3]);
+                            r.create_xxxdhpi(&all_path[4]);
+                        },
+                        Err(e) => match e.kind() {
+                            ErrorKind::AlreadyExists => println!("Directory already exists: {}", flutter_path),
+                            _ => panic!("Error creating directory: {}", e),
+                        }
+                    }
                 }
             }
         }

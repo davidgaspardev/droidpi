@@ -50,9 +50,11 @@ impl Resize {
         let new_width = (((self.width as f32) * FACTOR_XXHDPI) / FACTOR_XXXHDPI) as u32;
         let new_height = (((self.height as f32) * FACTOR_XXHDPI) / FACTOR_XXXHDPI) as u32;
 
-        let xxhdpi_image =
-            self.xxxhdpi_img
-                .resize(new_width, new_height, image::imageops::FilterType::Nearest);
+        let xxhdpi_image = self.xxxhdpi_img.resize(
+            new_width,
+            new_height,
+            image::imageops::FilterType::CatmullRom,
+        );
         xxhdpi_image
             .save(format!("{}/{}.png", directory, self.name))
             .unwrap();
@@ -69,9 +71,11 @@ impl Resize {
         let new_width = (((self.width as f32) * FACTOR_XHDPI) / FACTOR_XXXHDPI) as u32;
         let new_height = (((self.height as f32) * FACTOR_XHDPI) / FACTOR_XXXHDPI) as u32;
 
-        let xhdpi_image =
-            self.xxxhdpi_img
-                .resize(new_width, new_height, image::imageops::FilterType::Nearest);
+        let xhdpi_image = self.xxxhdpi_img.resize(
+            new_width,
+            new_height,
+            image::imageops::FilterType::CatmullRom,
+        );
         xhdpi_image
             .save(format!("{}/{}.png", directory, self.name))
             .unwrap();
@@ -88,9 +92,11 @@ impl Resize {
         let new_width = (((self.width as f32) * FACTOR_HDPI) / FACTOR_XXXHDPI) as u32;
         let new_height = (((self.height as f32) * FACTOR_HDPI) / FACTOR_XXXHDPI) as u32;
 
-        let hdpi_image =
-            self.xxxhdpi_img
-                .resize(new_width, new_height, image::imageops::FilterType::Nearest);
+        let hdpi_image = self.xxxhdpi_img.resize(
+            new_width,
+            new_height,
+            image::imageops::FilterType::CatmullRom,
+        );
         hdpi_image
             .save(format!("{}/{}.png", directory, self.name))
             .unwrap();
@@ -107,9 +113,11 @@ impl Resize {
         let new_width = (((self.width as f32) * FACTOR_MDPI) / FACTOR_XXXHDPI) as u32;
         let new_height = (((self.height as f32) * FACTOR_MDPI) / FACTOR_XXXHDPI) as u32;
 
-        let mdpi_image =
-            self.xxxhdpi_img
-                .resize(new_width, new_height, image::imageops::FilterType::Nearest);
+        let mdpi_image = self.xxxhdpi_img.resize(
+            new_width,
+            new_height,
+            image::imageops::FilterType::CatmullRom,
+        );
         mdpi_image
             .save(format!("{}/{}.png", directory, self.name))
             .unwrap();

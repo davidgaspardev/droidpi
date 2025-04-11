@@ -13,7 +13,7 @@ fn main() {
 
     if let Err(err) = result {
         eprintln!("{}", err);
-        return
+        return;
     }
 
     if let Ok(setting) = result {
@@ -34,7 +34,7 @@ fn main() {
                 format!("{}/1.5x", flutter_path),
                 format!("{}/2.0x", flutter_path),
                 format!("{}/3.0x", flutter_path),
-                format!("{}/4.0x", flutter_path)
+                format!("{}/4.0x", flutter_path),
             ];
 
             match fs::create_dir_all(flutter_path) {
@@ -44,11 +44,13 @@ fn main() {
                     img_resize.create_xhdpi(&all_path[2]);
                     img_resize.create_xxhdpi(&all_path[3]);
                     img_resize.create_xxxdhpi(&all_path[4]);
-                },
-                Err(err) => match err.kind() {
-                    ErrorKind::AlreadyExists => eprintln!("Directory already exists: {}", flutter_path),
-                    _ => panic!("Error creating directory: {}", err)
                 }
+                Err(err) => match err.kind() {
+                    ErrorKind::AlreadyExists => {
+                        eprintln!("Directory already exists: {}", flutter_path)
+                    }
+                    _ => panic!("Error creating directory: {}", err),
+                },
             }
         }
     }

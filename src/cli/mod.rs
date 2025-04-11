@@ -1,23 +1,18 @@
+use std::collections::HashMap;
 use std::env;
 use std::path::Path;
-use std::collections::HashMap;
 
 pub const IMAGE_PATH: &'static str = "--imagepath";
 pub const FLUTTER_PATH: &'static str = "--flutterpath";
 pub const IMAGE_NAME: &'static str = "--name";
 
-// Possible arguments for configuration 
-const POSSIBLE_ARGS: &'static[&'static str] = &[
-    IMAGE_PATH,
-    FLUTTER_PATH,
-    IMAGE_NAME
-];
+// Possible arguments for configuration
+const POSSIBLE_ARGS: &'static [&'static str] = &[IMAGE_PATH, FLUTTER_PATH, IMAGE_NAME];
 
 pub fn get_arguments() -> Result<HashMap<String, String>, String> {
-
     let args: Vec<String> = env::args().collect();
 
-    return load_args(args)
+    return load_args(args);
 }
 
 fn load_args(args: Vec<String>) -> Result<HashMap<String, String>, String> {
@@ -37,7 +32,7 @@ fn load_args(args: Vec<String>) -> Result<HashMap<String, String>, String> {
         // Checking arg value
         let ref argvalue = &args[index + 1];
         if !is_argvalue_valid(*argkey, *argvalue) {
-            return Err("Arg value invalid".to_string())
+            return Err("Arg value invalid".to_string());
         }
 
         // Add in the setting
@@ -70,12 +65,12 @@ fn is_argkey_valid(argkey: &String) -> bool {
 fn is_argvalue_valid(argkey: &String, argvalue: &String) -> bool {
     if argkey == IMAGE_PATH {
         if !Path::new(argvalue).exists() || !is_path_imagefile(argvalue) {
-            return false
+            return false;
         }
     }
     if argkey == FLUTTER_PATH {
         if !Path::new(argvalue).exists() {
-            return false
+            return false;
         }
     }
     true

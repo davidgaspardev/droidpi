@@ -6,16 +6,19 @@ mod flutter;
 pub struct PlatformFactory;
 
 impl PlatformFactory {
-    pub fn get_platform_resize(platform: &str, resize: Resize) -> Box<dyn Platform> {
+    pub fn get_platform_resize(
+        platform: &str,
+        resize: Resize,
+    ) -> Result<Box<dyn Platform>, String> {
         if platform.eq("android") {
-            return android::AndroidPlatform::new(resize);
+            return Ok(android::AndroidPlatform::new(resize));
         }
 
         if platform.eq("flutter") {
-            return flutter::FlutterPlatform::new(resize);
+            return Ok(flutter::FlutterPlatform::new(resize));
         }
 
-        panic!("Platform not found")
+        Err(format!("Platform '{}' not found", platform))
     }
 }
 

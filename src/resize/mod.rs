@@ -26,7 +26,7 @@ impl Resize {
         }
     }
 
-    pub fn create_xxxdhpi(&self, directory: &String) {
+    pub fn create_xxxhdpi(&self, directory: &String) {
         if !fs::metadata(&directory).is_ok() {
             match fs::create_dir(&directory) {
                 Ok(_) => println!("Directory created successfully: {}", directory),

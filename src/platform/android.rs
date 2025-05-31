@@ -24,7 +24,7 @@ impl Platform for AndroidPlatform {
                 self.resize
                     .create_xxhdpi(&format!("{}/mipmap-xxhdpi", out_dir));
                 self.resize
-                    .create_xxxdhpi(&format!("{}/mipmap-xxxhdpi", out_dir));
+                    .create_xxxhdpi(&format!("{}/mipmap-xxxhdpi", out_dir));
 
                 Ok(())
             }

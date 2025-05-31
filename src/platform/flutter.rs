@@ -20,7 +20,7 @@ impl Platform for FlutterPlatform {
                 self.resize.create_hdpi(&format!("{}/2.0x", out_dir));
                 self.resize.create_xhdpi(&format!("{}/3.0x", out_dir));
                 self.resize.create_xxhdpi(&format!("{}/4.0x", out_dir));
-                self.resize.create_xxxdhpi(&format!("{}", out_dir));
+                self.resize.create_xxxhdpi(&format!("{}", out_dir));
 
                 Ok(())
             }

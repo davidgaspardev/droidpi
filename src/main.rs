@@ -18,26 +18,21 @@ fn main() {
 
     if let Ok(setting) = result {
         println!("setting: {:?}", setting);
-        println!("setting[IMAGE_PATH]: {}", setting[cli::IMAGE_PATH]);
+        println!("setting[FLAG_SRC]: {}", setting[cli::FLAG_SRC]);
         println!("setting[FLUTTER_PATH]: {}", setting[cli::FLUTTER_PATH]);
         println!("setting[IMAGE_NAME]: {}", setting[cli::IMAGE_NAME]);
 
-        let image_path = &setting[cli::IMAGE_PATH];
-        let flutter_path = &setting[cli::FLUTTER_PATH];
-        let image_name = &setting[cli::IMAGE_NAME];
+        let image_path = &setting[cli::FLAG_SRC];
+        let out_dir = &setting[cli::FLAG_OUTDIR];
+        let target = &setting[cli::FLAG_TARGET];
+        let name = &setting[cli::FLAG_NAME];
+
+         let all_path = get_paths_by_target(out_dir, target).expect("Error getting paths");
 
         if let Ok(img) = image::open(image_path) {
-            let img_resize = resize::Resize::new(img, image_name.to_string());
+            let img_resize = resize::Resize::new(img, name.to_string());
 
-            let all_path = [
-                format!("{}", flutter_path),
-                format!("{}/1.5x", flutter_path),
-                format!("{}/2.0x", flutter_path),
-                format!("{}/3.0x", flutter_path),
-                format!("{}/4.0x", flutter_path),
-            ];
-
-            match fs::create_dir_all(flutter_path) {
+            match fs::create_dir_all(out_dir) {
                 Ok(_) => {
                     img_resize.create_mdpi(&all_path[0]);
                     img_resize.create_hdpi(&all_path[1]);
@@ -47,11 +42,35 @@ fn main() {
                 }
                 Err(err) => match err.kind() {
                     ErrorKind::AlreadyExists => {
-                        eprintln!("Directory already exists: {}", flutter_path)
+                        eprintln!("Directory already exists: {}", out_dir)
                     }
                     _ => panic!("Error creating directory: {}", err),
                 },
             }
         }
     }
+}
+
+pub fn get_paths_by_target(outDir: &str, target: &str) -> Result<[String; 5], &'static str> {
+    if target == "flutter" {
+        return Ok([
+            format!("{}/1.5x", outDir),
+            format!("{}/2.0x", outDir),
+            format!("{}/3.0x", outDir),
+            format!("{}/4.0x", outDir),
+            format!("{}", outDir),
+        ]);
+    }
+
+    if target == "android" {
+        return Ok([
+            format!("{}/mipmap-mdpi", outDir),
+            format!("{}/mipmap-hdpi", outDir),
+            format!("{}/mipmap-xhdpi", outDir),
+            format!("{}/mipmap-xxhdpi", outDir),
+            format!("{}/mipmap-xxxhdpi", outDir),
+        ]);
+    }
+
+    Err("Invalid target")
 }

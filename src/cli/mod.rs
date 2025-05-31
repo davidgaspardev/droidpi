@@ -2,17 +2,13 @@ use std::collections::HashMap;
 use std::env;
 use std::path::Path;
 
-pub const IMAGE_PATH: &'static str = "--imagepath";
-pub const FLUTTER_PATH: &'static str = "--flutterpath";
-pub const IMAGE_NAME: &'static str = "--name";
-
 pub const FLAG_SRC: &'static str = "--src";
 pub const FLAG_OUTDIR: &'static str = "--outDir";
 pub const FLAG_NAME: &'static str = "--name";
-pub const FLAG_TARGET: &'static str = "--target";
+pub const FLAG_PLATFORM: &'static str = "--platform";
 
 // Possible arguments for configuration
-const POSSIBLE_FLAGS: &'static [&'static str] = &[FLAG_SRC, FLAG_OUTDIR, FLAG_NAME, FLAG_TARGET];
+const POSSIBLE_FLAGS: &'static [&'static str] = &[FLAG_SRC, FLAG_OUTDIR, FLAG_NAME, FLAG_PLATFORM];
 
 pub fn get_arguments() -> Result<HashMap<String, String>, String> {
     let args: Vec<String> = env::args().collect();
@@ -83,7 +79,7 @@ fn is_argvalue_valid(argkey: &String, argvalue: &String) -> bool {
         }
     }
 
-    if argkey == FLAG_TARGET {
+    if argkey == FLAG_PLATFORM {
         if argvalue != "android" && argvalue != "flutter" {
             return false;
         }

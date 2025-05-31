@@ -26,7 +26,7 @@ impl Resize {
         }
     }
 
-    pub fn create_xxxdhpi(&self, directory: &String) {
+    pub fn create_xxxhdpi(&self, directory: &str) {
         if !fs::metadata(&directory).is_ok() {
             match fs::create_dir(&directory) {
                 Ok(_) => println!("Directory created successfully: {}", directory),
@@ -39,7 +39,7 @@ impl Resize {
             .unwrap();
     }
 
-    pub fn create_xxhdpi(&self, directory: &String) {
+    pub fn create_xxhdpi(&self, directory: &str) {
         if !fs::metadata(&directory).is_ok() {
             match fs::create_dir(&directory) {
                 Ok(_) => println!("Directory created successfully: {}", directory),
@@ -50,15 +50,17 @@ impl Resize {
         let new_width = (((self.width as f32) * FACTOR_XXHDPI) / FACTOR_XXXHDPI) as u32;
         let new_height = (((self.height as f32) * FACTOR_XXHDPI) / FACTOR_XXXHDPI) as u32;
 
-        let xxhdpi_image =
-            self.xxxhdpi_img
-                .resize(new_width, new_height, image::imageops::FilterType::Nearest);
+        let xxhdpi_image = self.xxxhdpi_img.resize(
+            new_width,
+            new_height,
+            image::imageops::FilterType::CatmullRom,
+        );
         xxhdpi_image
             .save(format!("{}/{}.png", directory, self.name))
             .unwrap();
     }
 
-    pub fn create_xhdpi(&self, directory: &String) {
+    pub fn create_xhdpi(&self, directory: &str) {
         if !fs::metadata(&directory).is_ok() {
             match fs::create_dir(&directory) {
                 Ok(_) => println!("Directory created successfully: {}", directory),
@@ -69,15 +71,17 @@ impl Resize {
         let new_width = (((self.width as f32) * FACTOR_XHDPI) / FACTOR_XXXHDPI) as u32;
         let new_height = (((self.height as f32) * FACTOR_XHDPI) / FACTOR_XXXHDPI) as u32;
 
-        let xhdpi_image =
-            self.xxxhdpi_img
-                .resize(new_width, new_height, image::imageops::FilterType::Nearest);
+        let xhdpi_image = self.xxxhdpi_img.resize(
+            new_width,
+            new_height,
+            image::imageops::FilterType::CatmullRom,
+        );
         xhdpi_image
             .save(format!("{}/{}.png", directory, self.name))
             .unwrap();
     }
 
-    pub fn create_hdpi(&self, directory: &String) {
+    pub fn create_hdpi(&self, directory: &str) {
         if !fs::metadata(&directory).is_ok() {
             match fs::create_dir(&directory) {
                 Ok(_) => println!("Directory created successfully: {}", directory),
@@ -88,15 +92,17 @@ impl Resize {
         let new_width = (((self.width as f32) * FACTOR_HDPI) / FACTOR_XXXHDPI) as u32;
         let new_height = (((self.height as f32) * FACTOR_HDPI) / FACTOR_XXXHDPI) as u32;
 
-        let hdpi_image =
-            self.xxxhdpi_img
-                .resize(new_width, new_height, image::imageops::FilterType::Nearest);
+        let hdpi_image = self.xxxhdpi_img.resize(
+            new_width,
+            new_height,
+            image::imageops::FilterType::CatmullRom,
+        );
         hdpi_image
             .save(format!("{}/{}.png", directory, self.name))
             .unwrap();
     }
 
-    pub fn create_mdpi(&self, directory: &String) {
+    pub fn create_mdpi(&self, directory: &str) {
         if !fs::metadata(&directory).is_ok() {
             match fs::create_dir(&directory) {
                 Ok(_) => println!("Directory created successfully: {}", directory),
@@ -107,9 +113,11 @@ impl Resize {
         let new_width = (((self.width as f32) * FACTOR_MDPI) / FACTOR_XXXHDPI) as u32;
         let new_height = (((self.height as f32) * FACTOR_MDPI) / FACTOR_XXXHDPI) as u32;
 
-        let mdpi_image =
-            self.xxxhdpi_img
-                .resize(new_width, new_height, image::imageops::FilterType::Nearest);
+        let mdpi_image = self.xxxhdpi_img.resize(
+            new_width,
+            new_height,
+            image::imageops::FilterType::CatmullRom,
+        );
         mdpi_image
             .save(format!("{}/{}.png", directory, self.name))
             .unwrap();

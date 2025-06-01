@@ -13,7 +13,7 @@ DroiDPI is a command-line tool for resizing images to different screen densities
 
 ### For Flutter
 
-Create `my_icon.ong` for Flutter:
+Create `my_icon.png` for Flutter:
 
 ```bash
 .../my_icon.png       (mdpi baseline)

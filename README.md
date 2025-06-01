@@ -25,7 +25,7 @@ Create `my_icon.png` for Flutter:
 
 ### For Android
 
-Create `my_icon.ong` for Android:
+Create `my_icon.png` for Android:
 
 ```bash
 .../mipmap-mdpi/my_icon.png

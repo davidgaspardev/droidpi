@@ -21,20 +21,31 @@ DroiDPI is a command-line tool for resizing images to different screen densities
 
 ## Usage
 
-To resize an image using droiDPI, use the following command:
+To resize an image using DroiDPI, use the following command:
 
 ```bash
-droiDPI --image <image_path> --flutter <flutter_path> --name <image_name>
+droidpi --src <image_path> --outdir <directory_path> --name <image_name> --platform <flutter|android>
 ```
 
 - `<image_path>`: The path to the input image file.
-- `<flutter_path>`: The base directory where the resized images will be stored for Flutter. The different densities will be created as subdirectories within this base directory.
-- `<image_name>`: The desired name for the resized images. The resized images will be saved with this name and the appropriate density suffix.
+- `<directory_path>`: The base directory where the resized images will be stored. The different densities will be created as subdirectories within this base directory, according to the selected platform.
+- `<image_name>`: The desired name for the resized images. The resized images will be saved with this name.
+- `<platform>`: The target platform for which the images will be generated. Supported values: `flutter` or `android`.
 
-## What do I want to do with this ?
+### Examples
 
-I'm a mobile developer, and I always have to deal with performance on more humble devices, to collaborate with performance I need to resize my icons in five different sizes (mdpi, hdpi, xhdpi, xxhdpi and xxxhdpi).
+```bash
+# For Flutter projects
+droidpi --src logo.png --outdir ./assets --name logo --platform flutter
 
-It's always been a pain in the ass, but it's important, that's why I want to create this!
+# For native Android projects
+droidpi --src icon.png --outdir ./res --name ic_launcher --platform android
+```
 
-For always enjoying low-level development, came the idea of combining business with pleasure. Develop a binary that optimizes my work.
+## What do I want to do with this?
+
+I'm a mobile developer, and I always have to deal with performance on more humble devices. To collaborate with performance, I need to resize my icons in five different sizes (mdpi, hdpi, xhdpi, xxhdpi, and xxxhdpi).
+
+It's always been a pain, but it's important, and that's why I want to create this!
+
+For always enjoying low-level development, came the idea of combining business with pleasure: develop a binary that optimizes my work.

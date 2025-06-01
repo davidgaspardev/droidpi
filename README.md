@@ -9,7 +9,11 @@ DroiDPI is a command-line tool for resizing images to different screen densities
 - Automates the creation of directories and resizing of images for each density.
 - Uses the image crate for image processing in Rust.
 
-## Flutter pattern directory to images
+## Pattern directory to images
+
+### For Flutter
+
+Create `my_icon.ong` for Flutter:
 
 ```bash
 .../my_icon.png       (mdpi baseline)
@@ -17,6 +21,18 @@ DroiDPI is a command-line tool for resizing images to different screen densities
 .../2.0x/my_icon.png  (xhdpi)
 .../3.0x/my_icon.png  (xxhdpi)
 .../4.0x/my_icon.png  (xxxhdpi)
+```
+
+### For Android
+
+Create `my_icon.ong` for Android:
+
+```bash
+.../mipmap-mdpi/my_icon.png
+.../mipmap-hdpi/my_icon.png
+.../mipmap-xhdpi/my_icon.png
+.../mipmap-xxhdpi/my_icon.png
+.../mipmap-xxxhdpi/my_icon.png
 ```
 
 ## Usage

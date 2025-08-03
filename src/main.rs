@@ -1,5 +1,6 @@
 extern crate image;
 
+use cli::flag::Flag;
 mod cli;
 mod platform;
 mod resize;
@@ -16,10 +17,10 @@ fn main() {
     if let Ok(setting) = result {
         println!("setting: {:?}", setting);
 
-        let src = setting.get(cli::FLAG_SRC).unwrap();
-        let out_dir = setting.get(cli::FLAG_OUTDIR).unwrap();
-        let platform_name = setting.get(cli::FLAG_PLATFORM).unwrap();
-        let name = setting.get(cli::FLAG_NAME).unwrap();
+        let src = setting.get(Flag::Src.as_str()).unwrap();
+        let out_dir = setting.get(Flag::OutDir.as_str()).unwrap();
+        let platform_name = setting.get(Flag::Platform.as_str()).unwrap();
+        let name = setting.get(Flag::Name.as_str()).unwrap();
 
         if let Ok(img) = image::open(src) {
             let img_resize = resize::Resize::new(img, name.to_string());

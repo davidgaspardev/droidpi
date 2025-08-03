@@ -1,14 +1,9 @@
+pub mod flag;
+use flag::Flag;
+
 use std::collections::HashMap;
 use std::env;
 use std::path::Path;
-
-pub const FLAG_SRC: &'static str = "--src";
-pub const FLAG_OUTDIR: &'static str = "--outDir";
-pub const FLAG_NAME: &'static str = "--name";
-pub const FLAG_PLATFORM: &'static str = "--platform";
-
-// Possible arguments for configuration
-const POSSIBLE_FLAGS: &'static [&'static str] = &[FLAG_SRC, FLAG_OUTDIR, FLAG_NAME, FLAG_PLATFORM];
 
 pub fn get_arguments() -> Result<HashMap<String, String>, String> {
     let args: Vec<String> = env::args().collect();
@@ -21,7 +16,6 @@ pub fn get_arguments() -> Result<HashMap<String, String>, String> {
 /// Returns an error if the arguments are not valid.
 fn load_args(args: Vec<String>) -> Result<HashMap<String, String>, String> {
     let args_number = get_args_number(&args);
-
     let mut setting = HashMap::new();
 
     for i in 1..(args_number + 1) {
@@ -43,9 +37,9 @@ fn load_args(args: Vec<String>) -> Result<HashMap<String, String>, String> {
         setting.insert((*argkey).to_string(), (*argvalue).to_string());
     }
 
-    for &argkey in POSSIBLE_FLAGS {
-        if setting.get(argkey) == None {
-            return Err(format!(r#""{}" argument not informed"#, argkey).to_string());
+    for flag in Flag::get_all_required() {
+        if setting.get(flag) == None {
+            return Err(format!(r#""{}" argument not informed"#, flag).to_string());
         }
     }
 
@@ -57,29 +51,23 @@ fn get_args_number(args: &[String]) -> u8 {
 }
 
 fn is_argkey_valid(argkey: &String) -> bool {
-    for arg in POSSIBLE_FLAGS {
-        if argkey.eq(*arg) {
-            return true;
-        }
-    }
-
-    false
+    Flag::from_str(argkey).is_some()
 }
 
 fn is_argvalue_valid(argkey: &String, argvalue: &String) -> bool {
-    if argkey == FLAG_SRC {
+    if Flag::is_src(argkey) {
         if !Path::new(argvalue).is_file() || !is_path_imagefile(argvalue) {
             return false;
         }
     }
 
-    if argkey == FLAG_OUTDIR {
+    if Flag::is_out_dir(argkey) {
         if !Path::new(argvalue).is_dir() {
             return false;
         }
     }
 
-    if argkey == FLAG_PLATFORM {
+    if Flag::is_platform(argkey) {
         if argvalue != "android" && argvalue != "flutter" {
             return false;
         }

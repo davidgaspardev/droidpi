@@ -35,13 +35,13 @@ impl Flag {
         }
     }
 
-    pub fn get_all_required() -> [&'static str; 4] {
-        return [
+    pub fn get_all_required() -> Vec<&'static str> {
+        vec![
             Flag::Src.as_str(),
             Flag::OutDir.as_str(),
             Flag::Name.as_str(),
             Flag::Platform.as_str(),
-        ];
+        ]
     }
 
     pub fn is_equal(&self, flag: &str) -> bool {

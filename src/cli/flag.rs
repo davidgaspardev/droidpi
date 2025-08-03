@@ -6,7 +6,7 @@ pub enum Flag {
 }
 
 impl Flag {
-    pub fn from_str(flag_str: &String) -> Option<Flag> {
+    pub fn from_str(flag_str: &str) -> Option<Flag> {
         if Flag::Src.is_equal(flag_str) {
             return Some(Flag::Src);
         }
@@ -44,23 +44,23 @@ impl Flag {
         ];
     }
 
-    pub fn is_equal(&self, flag: &String) -> bool {
+    pub fn is_equal(&self, flag: &str) -> bool {
         self.as_str() == flag
     }
 
-    pub fn is_src(flag: &String) -> bool {
+    pub fn is_src(flag: &str) -> bool {
         Flag::Src.is_equal(flag)
     }
 
-    pub fn is_out_dir(flag: &String) -> bool {
+    pub fn is_out_dir(flag: &str) -> bool {
         Flag::OutDir.is_equal(flag)
     }
 
-    pub fn is_name(flag: &String) -> bool {
+    pub fn is_name(flag: &str) -> bool {
         Flag::Name.is_equal(flag)
     }
 
-    pub fn is_platform(flag: &String) -> bool {
+    pub fn is_platform(flag: &str) -> bool {
         Flag::Platform.is_equal(flag)
     }
 }

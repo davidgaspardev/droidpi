@@ -52,7 +52,7 @@ impl Context {
                 return arg_platform;
             }
         }
-        eprintln!("Fail to get platform argument");
+        eprintln!("Failed to get platform argument");
         exit(1)
     }
 

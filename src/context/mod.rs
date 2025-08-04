@@ -32,7 +32,7 @@ impl Context {
                 return arg_src;
             }
         }
-        eprintln!("Fail to get src argument");
+        eprintln!("Failed to get src argument");
         exit(1)
     }
 

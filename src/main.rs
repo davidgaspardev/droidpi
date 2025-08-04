@@ -1,9 +1,12 @@
 extern crate image;
 
-use cli::flag::Flag;
 mod cli;
+mod context;
 mod platform;
 mod resize;
+
+use context::Context;
+use context::Mode;
 
 fn main() {
     println!("Welcome to droiDPI");
@@ -14,28 +17,38 @@ fn main() {
         return;
     }
 
-    if let Ok(setting) = result {
-        println!("setting: {:?}", setting);
+    if let Ok(args) = result {
+        let ctx = Context::new(args);
 
-        let src = setting.get(Flag::Src.as_str()).unwrap();
-        let out_dir = setting.get(Flag::OutDir.as_str()).unwrap();
-        let platform_name = setting.get(Flag::Platform.as_str()).unwrap();
-        let name = setting.get(Flag::Name.as_str()).unwrap();
+        match ctx.mode {
+            Mode::RunMainLogic => {
+                println!("argments: {:?}", ctx.args);
 
-        if let Ok(img) = image::open(src) {
-            let img_resize = resize::Resize::new(img, name.to_string());
+                let src = ctx.get_arg_src();
+                let out_dir = ctx.get_arg_out_dir();
+                let platform_name = ctx.get_arg_platform();
+                let name = ctx.get_arg_name();
 
-            match platform::PlatformFactory::get_platform_resize(platform_name, img_resize) {
-                Ok(platform_target) => {
-                    let result = platform_target.create_images(out_dir);
+                if let Ok(img) = image::open(src) {
+                    let img_resize = resize::Resize::new(img, name.to_string());
 
-                    if let Err(msg) = result {
-                        eprint!("{}", msg);
+                    match platform::PlatformFactory::get_platform_resize(platform_name, img_resize)
+                    {
+                        Ok(platform_target) => {
+                            let result = platform_target.create_images(out_dir);
+
+                            if let Err(msg) = result {
+                                eprint!("{}", msg);
+                            }
+                        }
+                        Err(msg) => {
+                            eprint!("{}", msg);
+                        }
                     }
                 }
-                Err(msg) => {
-                    eprint!("{}", msg);
-                }
+            }
+            Mode::ShowVersion => {
+                println!("{} v{}", ctx.name, ctx.version);
             }
         }
     }

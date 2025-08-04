@@ -22,7 +22,7 @@ fn main() {
 
         match ctx.mode {
             Mode::RunMainLogic => {
-                println!("argments: {:?}", ctx.args);
+                println!("arguments: {:?}", ctx.args);
 
                 let src = ctx.get_arg_src();
                 let out_dir = ctx.get_arg_out_dir();

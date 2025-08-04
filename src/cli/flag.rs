@@ -7,23 +7,13 @@ pub enum Flag {
 
 impl Flag {
     pub fn from_str(flag_str: &str) -> Option<Flag> {
-        if Flag::Src.is_equal(flag_str) {
-            return Some(Flag::Src);
+        match flag_str {
+            s if Flag::Src.is_equal(s) => Some(Flag::Src),
+            s if Flag::OutDir.is_equal(s) => Some(Flag::OutDir),
+            s if Flag::Name.is_equal(s) => Some(Flag::Name),
+            s if Flag::Platform.is_equal(s) => Some(Flag::Platform),
+            _ => None,
         }
-
-        if Flag::OutDir.is_equal(flag_str) {
-            return Some(Flag::OutDir);
-        }
-
-        if Flag::Name.is_equal(flag_str) {
-            return Some(Flag::Name);
-        }
-
-        if Flag::Platform.is_equal(flag_str) {
-            return Some(Flag::Platform);
-        }
-
-        None
     }
 
     pub fn as_str(&self) -> &'static str {

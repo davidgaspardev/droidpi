@@ -42,7 +42,7 @@ impl Context {
                 return arg_out_dir;
             }
         }
-        eprintln!("Fail to get out dir argument");
+        eprintln!("Failed to get out dir argument");
         exit(1)
     }
 

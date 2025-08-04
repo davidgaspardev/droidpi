@@ -8,10 +8,10 @@ pub enum Flag {
 impl Flag {
     pub fn from_str(flag_str: &str) -> Option<Flag> {
         match flag_str {
-            s if Flag::Src.is_equal(s) => Some(Flag::Src),
-            s if Flag::OutDir.is_equal(s) => Some(Flag::OutDir),
-            s if Flag::Name.is_equal(s) => Some(Flag::Name),
-            s if Flag::Platform.is_equal(s) => Some(Flag::Platform),
+            "--src" => Some(Flag::Src),
+            "--outDir" => Some(Flag::OutDir),
+            "--name" => Some(Flag::Name),
+            "--platform" => Some(Flag::Platform),
             _ => None,
         }
     }
@@ -32,9 +32,5 @@ impl Flag {
             Flag::Name.as_str(),
             Flag::Platform.as_str(),
         ]
-    }
-
-    pub fn is_equal(&self, flag: &str) -> bool {
-        self.as_str() == flag
     }
 }

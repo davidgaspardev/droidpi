@@ -62,7 +62,7 @@ impl Context {
                 return arg_name;
             }
         }
-        eprintln!("Fail to get name argument");
+        eprintln!("Failed to get name argument");
         exit(1)
     }
 }

@@ -55,25 +55,13 @@ fn is_argkey_valid(argkey: &String) -> bool {
 }
 
 fn is_argvalue_valid(argkey: &String, argvalue: &String) -> bool {
-    if Flag::is_src(argkey) {
-        if !Path::new(argvalue).is_file() || !is_path_imagefile(argvalue) {
-            return false;
-        }
+    match Flag::from_str(argkey) {
+        Some(Flag::Src) => Path::new(argvalue).is_file() && is_path_imagefile(argvalue),
+        Some(Flag::OutDir) => Path::new(argvalue).is_dir(),
+        Some(Flag::Platform) => argvalue == "android" || argvalue == "flutter",
+        Some(_) => true,
+        _ => false,
     }
-
-    if Flag::is_out_dir(argkey) {
-        if !Path::new(argvalue).is_dir() {
-            return false;
-        }
-    }
-
-    if Flag::is_platform(argkey) {
-        if argvalue != "android" && argvalue != "flutter" {
-            return false;
-        }
-    }
-
-    true
 }
 
 fn is_path_imagefile(argvalue: &String) -> bool {

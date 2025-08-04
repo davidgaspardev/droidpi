@@ -47,20 +47,4 @@ impl Flag {
     pub fn is_equal(&self, flag: &str) -> bool {
         self.as_str() == flag
     }
-
-    pub fn is_src(flag: &str) -> bool {
-        Flag::Src.is_equal(flag)
-    }
-
-    pub fn is_out_dir(flag: &str) -> bool {
-        Flag::OutDir.is_equal(flag)
-    }
-
-    pub fn is_name(flag: &str) -> bool {
-        Flag::Name.is_equal(flag)
-    }
-
-    pub fn is_platform(flag: &str) -> bool {
-        Flag::Platform.is_equal(flag)
-    }
 }

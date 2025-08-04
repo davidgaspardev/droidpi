@@ -3,6 +3,7 @@ pub enum Flag {
     OutDir,
     Name,
     Platform,
+    Version,
 }
 
 impl Flag {
@@ -12,6 +13,7 @@ impl Flag {
             "--outDir" => Some(Flag::OutDir),
             "--name" => Some(Flag::Name),
             "--platform" => Some(Flag::Platform),
+            "--version" => Some(Flag::Version),
             _ => None,
         }
     }
@@ -22,15 +24,15 @@ impl Flag {
             Flag::OutDir => "--outDir",
             Flag::Name => "--name",
             Flag::Platform => "--platform",
+            Flag::Version => "--version",
         }
     }
 
-    pub fn get_all_required() -> Vec<&'static str> {
-        vec![
-            Flag::Src.as_str(),
-            Flag::OutDir.as_str(),
-            Flag::Name.as_str(),
-            Flag::Platform.as_str(),
-        ]
+    pub fn has_value(&self) -> bool {
+        if self.as_str() == Flag::Version.as_str() {
+            false
+        } else {
+            true
+        }
     }
 }

@@ -2,6 +2,7 @@ extern crate image;
 
 mod cli;
 mod context;
+mod help;
 mod platform;
 mod resize;
 
@@ -14,6 +15,7 @@ fn main() {
     let result = cli::get_arguments();
     if let Err(err) = result {
         eprintln!("{}", err);
+        help::show_short_help();
         return;
     }
 
@@ -48,7 +50,10 @@ fn main() {
                 }
             }
             Mode::ShowVersion => {
-                println!("{} v{}", ctx.name, ctx.version);
+                help::show_version(&ctx.name, &ctx.version);
+            }
+            Mode::ShowHelp => {
+                help::show_help(&ctx.name, &ctx.version);
             }
         }
     }

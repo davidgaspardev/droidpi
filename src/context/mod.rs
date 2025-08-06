@@ -19,6 +19,8 @@ impl Context {
             version: env!("CARGO_PKG_VERSION").to_string(),
             mode: if args.contains_key(Flag::Version.as_str()) {
                 Mode::ShowVersion
+            } else if args.contains_key(Flag::Help.as_str()) {
+                Mode::ShowHelp
             } else {
                 Mode::RunMainLogic
             },

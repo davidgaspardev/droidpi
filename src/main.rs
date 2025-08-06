@@ -1,8 +1,13 @@
 extern crate image;
 
 mod cli;
+mod context;
+mod help;
 mod platform;
 mod resize;
+
+use context::Context;
+use context::Mode;
 
 fn main() {
     println!("Welcome to droiDPI");
@@ -10,31 +15,45 @@ fn main() {
     let result = cli::get_arguments();
     if let Err(err) = result {
         eprintln!("{}", err);
+        help::show_short_help();
         return;
     }
 
-    if let Ok(setting) = result {
-        println!("setting: {:?}", setting);
+    if let Ok(args) = result {
+        let ctx = Context::new(args);
 
-        let src = setting.get(cli::FLAG_SRC).unwrap();
-        let out_dir = setting.get(cli::FLAG_OUTDIR).unwrap();
-        let platform_name = setting.get(cli::FLAG_PLATFORM).unwrap();
-        let name = setting.get(cli::FLAG_NAME).unwrap();
+        match ctx.mode {
+            Mode::RunMainLogic => {
+                println!("arguments: {:?}", ctx.args);
 
-        if let Ok(img) = image::open(src) {
-            let img_resize = resize::Resize::new(img, name.to_string());
+                let src = ctx.get_arg_src();
+                let out_dir = ctx.get_arg_out_dir();
+                let platform_name = ctx.get_arg_platform();
+                let name = ctx.get_arg_name();
 
-            match platform::PlatformFactory::get_platform_resize(platform_name, img_resize) {
-                Ok(platform_target) => {
-                    let result = platform_target.create_images(out_dir);
+                if let Ok(img) = image::open(src) {
+                    let img_resize = resize::Resize::new(img, name.to_string());
 
-                    if let Err(msg) = result {
-                        eprint!("{}", msg);
+                    match platform::PlatformFactory::get_platform_resize(platform_name, img_resize)
+                    {
+                        Ok(platform_target) => {
+                            let result = platform_target.create_images(out_dir);
+
+                            if let Err(msg) = result {
+                                eprint!("{}", msg);
+                            }
+                        }
+                        Err(msg) => {
+                            eprint!("{}", msg);
+                        }
                     }
                 }
-                Err(msg) => {
-                    eprint!("{}", msg);
-                }
+            }
+            Mode::ShowVersion => {
+                help::show_version(&ctx.name, &ctx.version);
+            }
+            Mode::ShowHelp => {
+                help::show_help(&ctx.name, &ctx.version);
             }
         }
     }

@@ -47,11 +47,11 @@ impl Context {
             if let Some(arg_out_dir) = optional_arg_out_dir {
                 return arg_out_dir;
             } else {
-                eprintln!("Argument '--out-dir' was provided but has no value. Please provide a valid value for '--out-dir'.");
+                eprintln!("Argument '--outDir' was provided but has no value. Please provide a valid value for '--outDir'.");
                 exit(1)
             }
         } else {
-            eprintln!("Missing required argument '--out-dir'. Please provide it using '--out-dir <value>'.");
+            eprintln!("Missing required argument '--outDir'. Please provide it using '--outDir <value>'.");
             exit(1)
         }
     }

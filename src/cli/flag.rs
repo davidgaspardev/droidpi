@@ -1,10 +1,14 @@
+#[derive(PartialEq)]
 pub enum Flag {
     Src,
     OutDir,
     Name,
     Platform,
     Version,
+    Help,
 }
+
+const BOOLEAN_FLAGS: [Flag; 2] = [Flag::Version, Flag::Help];
 
 impl Flag {
     pub fn from_str(flag_str: &str) -> Option<Flag> {
@@ -14,6 +18,7 @@ impl Flag {
             "--name" => Some(Flag::Name),
             "--platform" => Some(Flag::Platform),
             "--version" => Some(Flag::Version),
+            "--help" => Some(Flag::Help),
             _ => None,
         }
     }
@@ -25,14 +30,11 @@ impl Flag {
             Flag::Name => "--name",
             Flag::Platform => "--platform",
             Flag::Version => "--version",
+            Flag::Help => "--help",
         }
     }
 
-    pub fn has_value(&self) -> bool {
-        if self.as_str() == Flag::Version.as_str() {
-            false
-        } else {
-            true
-        }
+    pub fn is_boolean(&self) -> bool {
+        return BOOLEAN_FLAGS.contains(&self);
     }
 }

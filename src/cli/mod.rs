@@ -27,7 +27,9 @@ fn load_args(args: Vec<String>) -> Result<HashMap<String, Option<String>>, Strin
 
         match flag {
             Some(flag) => {
-                if flag.has_value() {
+                if flag.is_boolean() {
+                    setting.insert(flag.as_str().to_string(), None);
+                } else {
                     // Checking arg value
                     let argvalue = &args[index + 1];
                     if !is_argvalue_valid(argkey, argvalue) {
@@ -36,10 +38,6 @@ fn load_args(args: Vec<String>) -> Result<HashMap<String, Option<String>>, Strin
 
                     // Add in the setting
                     setting.insert(flag.as_str().to_string(), Some((*argvalue).to_string()));
-                } else {
-                    if flag.as_str() == Flag::Version.as_str() {
-                        setting.insert(flag.as_str().to_string(), None);
-                    }
                 }
             }
             None => {

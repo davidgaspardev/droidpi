@@ -38,7 +38,7 @@ jobs:
 
       - name: Check if output file exists
         run: |
-          count=$(find data -type f -name "launcher-icon.png" | wc -l)
+          count=$(find output -type f -name "launcher-icon.png" | wc -l)
           echo "Found $count launcher-icon.png files"
 
           if [ "$count" -eq 5 ]; then

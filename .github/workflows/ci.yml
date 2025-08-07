@@ -1,0 +1,49 @@
+name: Rust CLI CI
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - develop
+
+jobs:
+  test-cli:
+    runs-on: ubuntu-latest
+
+    steps:
+      # Step 1: Checkout the code
+      - uses: actions/checkout@v3
+
+      # Step 2: Set up rust
+      - uses: actions-rust-lang/setup-rust-toolchain@v1
+        with:
+          rust-version: stable
+
+      # Step 3: Build CLI
+      - name: Build CLI
+        run: cargo build --release
+
+      # Step 4: Download icon to use as input
+      - name: Download test icon
+        run: |
+          mkdir -p input
+          curl -L -o input/test-icon.png https://firebasestorage.googleapis.com/v0/b/myself-dg.appspot.com/o/my-website%2FoptionalParameters.png?alt=media&token=fe276d41-d20e-4e7f-a13b-7302a1508b2c
+
+      - name: Run CLI tool
+        run: |
+          mkdir -p output
+          ./target/release/droidpi --src input/test-icon.png --outDir output --platform flutter --name launcher-icon
+
+      - name: Check if output file exists
+        run: |
+          count=$(find output -type f -name "launcher-icon.png" | wc -l)
+          echo "Found $count launcher-icon.png files"
+
+          if [ "$count" -eq 5 ]; then
+            echo "✅ Exactly five launcher-icon.png files found"
+          else
+            echo "❌ Expected 5 launcher-icon.png files, found $count"
+            exit 1
+          fi

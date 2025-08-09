@@ -28,59 +28,36 @@ impl Context {
         }
     }
 
-    pub fn get_arg_src(&self) -> &String {
-        if let Some(optional_arg_src) = self.args.get(Flag::Src.as_str()) {
-            if let Some(arg_src) = optional_arg_src {
-                return arg_src;
-            } else {
-                eprintln!("Argument '--src' was provided but has no value. Please provide a valid value for '--src'.");
+    /// Helper method to get a required argument value
+    fn get_required_arg(&self, flag: Flag) -> &String {
+        let flag_str = flag.as_str();
+
+        match self.args.get(flag_str) {
+            Some(Some(value)) => value,
+            Some(None) => {
+                eprintln!("Argument '{flag_str}' was provided but has no value. Please provide a valid value for '{flag_str}'.");
                 exit(1)
             }
-        } else {
-            eprintln!("Missing required argument '--src'. Please provide it using '--src <value>'.");
-            exit(1)
+            None => {
+                eprintln!("Missing required argument '{flag_str}'. Please provide it using '--{flag_str} <value>'.");
+                exit(1)
+            }
         }
+    }
+
+    pub fn get_arg_src(&self) -> &String {
+        self.get_required_arg(Flag::Src)
     }
 
     pub fn get_arg_out_dir(&self) -> &String {
-        if let Some(optional_arg_out_dir) = self.args.get(Flag::OutDir.as_str()) {
-            if let Some(arg_out_dir) = optional_arg_out_dir {
-                return arg_out_dir;
-            } else {
-                eprintln!("Argument '--outDir' was provided but has no value. Please provide a valid value for '--outDir'.");
-                exit(1)
-            }
-        } else {
-            eprintln!("Missing required argument '--outDir'. Please provide it using '--outDir <value>'.");
-            exit(1)
-        }
+        self.get_required_arg(Flag::OutDir)
     }
 
     pub fn get_arg_platform(&self) -> &String {
-        if let Some(optional_arg_platform) = self.args.get(Flag::Platform.as_str()) {
-            if let Some(arg_platform) = optional_arg_platform {
-                return arg_platform;
-            } else {
-                eprintln!("Argument '--platform' was provided but has no value. Please provide a valid value for '--platform'.");
-                exit(1)
-            }
-        } else {
-            eprintln!("Missing required argument '--platform'. Please provide it using '--platform <value>'.");
-            exit(1)
-        }
+        self.get_required_arg(Flag::Platform)
     }
 
     pub fn get_arg_name(&self) -> &String {
-        if let Some(optional_arg_name) = self.args.get(Flag::Name.as_str()) {
-            if let Some(arg_name) = optional_arg_name {
-                return arg_name;
-            } else {
-                eprintln!("Argument '--name' was provided but has no value. Please provide a valid value for '--name'.");
-                exit(1)
-            }
-        } else {
-            eprintln!("Missing required argument '--name'. Please provide it using '--name <value>'.");
-            exit(1)
-        }
+        self.get_required_arg(Flag::Name)
     }
 }

@@ -39,7 +39,7 @@ impl Context {
                 exit(1)
             }
             None => {
-                eprintln!("Missing required argument '{flag_str}'. Please provide it using '{flag_str} <value>'.");
+                eprintln!("Missing required argument '{flag_str}'. Please provide it using '--{flag_str} <value>'.");
                 exit(1)
             }
         }

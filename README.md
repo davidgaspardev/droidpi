@@ -25,7 +25,7 @@ Create `my_icon.png` for Flutter:
 
 ### For Android
 
-Create `my_icon.png` for Android:
+Create `my_icon.png` for Android (default: **mipmap** directories):
 
 ```bash
 .../mipmap-mdpi/my_icon.png
@@ -35,18 +35,30 @@ Create `my_icon.png` for Android:
 .../mipmap-xxxhdpi/my_icon.png
 ```
 
+**With `--use-drawable` flag:**  
+Creates images in **drawable** directories instead:
+
+```bash
+.../drawable-mdpi/my_icon.png
+.../drawable-hdpi/my_icon.png
+.../drawable-xhdpi/my_icon.png
+.../drawable-xxhdpi/my_icon.png
+.../drawable-xxxhdpi/my_icon.png
+```
+
 ## Usage
 
 To resize an image using DroiDPI, use the following command:
 
 ```bash
-droidpi --src <image_path> --outdir <directory_path> --name <image_name> --platform <flutter|android>
+droidpi --src <image_path> --outdir <directory_path> --name <image_name> --platform <flutter|android> [--use-drawable]
 ```
 
 - `<image_path>`: The path to the input image file.
 - `<directory_path>`: The base directory where the resized images will be stored. The different densities will be created as subdirectories within this base directory, according to the selected platform.
 - `<image_name>`: The desired name for the resized images. The resized images will be saved with this name.
 - `<platform>`: The target platform for which the images will be generated. Supported values: `flutter` or `android`.
+- `--use-drawable`: *(Android only, optional)* If present, output images to `drawable-*dpi` directories instead of `mipmap-*dpi`.
 
 ### Examples
 
@@ -54,8 +66,11 @@ droidpi --src <image_path> --outdir <directory_path> --name <image_name> --platf
 # For Flutter projects
 droidpi --src logo.png --outdir ./assets --name logo --platform flutter
 
-# For native Android projects
+# For native Android projects (default: mipmap)
 droidpi --src icon.png --outdir ./res --name ic_launcher --platform android
+
+# For native Android projects (using drawable directories)
+droidpi --src icon.png --outdir ./res --name ic_launcher --platform android --use-drawable
 ```
 
 ## What do I want to do with this?

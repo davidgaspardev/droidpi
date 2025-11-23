@@ -1,5 +1,5 @@
 use super::Platform;
-use crate::resize::Resize;
+use crate::{context::Context, resize::Resize};
 use std::{fs, io::ErrorKind};
 
 pub struct FlutterPlatform {
@@ -13,7 +13,9 @@ impl FlutterPlatform {
 }
 
 impl Platform for FlutterPlatform {
-    fn create_images(&self, out_dir: &str) -> Result<(), String> {
+    fn create_images(&self, ctx: &Context) -> Result<(), String> {
+        let out_dir = ctx.get_arg_out_dir();
+
         return match fs::create_dir_all(out_dir) {
             Ok(_) => {
                 self.resize.create_mdpi(&format!("{}/1.5x", out_dir));

@@ -1,4 +1,4 @@
-use crate::resize::Resize;
+use crate::{context::Context, resize::Resize};
 use std::{fs, io::ErrorKind};
 
 use super::Platform;
@@ -14,17 +14,23 @@ impl AndroidPlatform {
 }
 
 impl Platform for AndroidPlatform {
-    fn create_images(&self, out_dir: &str) -> Result<(), String> {
+    fn create_images(&self, ctx: &Context) -> Result<(), String> {
+        let out_dir = ctx.get_arg_out_dir();
+        let dir_base = if ctx.args.contains_key("--use-drawable") {
+            "drawable"
+        } else {
+            "mipmap"
+        };
+        let final_dir = format!("{}/{}", out_dir, dir_base);
+
         return match fs::create_dir_all(out_dir) {
             Ok(_) => {
-                self.resize.create_mdpi(&format!("{}/mipmap-mdpi", out_dir));
-                self.resize.create_hdpi(&format!("{}/mipmap-hdpi", out_dir));
+                self.resize.create_mdpi(&format!("{}-mdpi", final_dir));
+                self.resize.create_hdpi(&format!("{}-hdpi", final_dir));
+                self.resize.create_xhdpi(&format!("{}-xhdpi", final_dir));
+                self.resize.create_xxhdpi(&format!("{}-xxhdpi", final_dir));
                 self.resize
-                    .create_xhdpi(&format!("{}/mipmap-xhdpi", out_dir));
-                self.resize
-                    .create_xxhdpi(&format!("{}/mipmap-xxhdpi", out_dir));
-                self.resize
-                    .create_xxxhdpi(&format!("{}/mipmap-xxxhdpi", out_dir));
+                    .create_xxxhdpi(&format!("{}-xxxhdpi", final_dir));
 
                 Ok(())
             }

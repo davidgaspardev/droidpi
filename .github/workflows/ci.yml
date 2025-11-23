@@ -79,6 +79,9 @@ jobs:
           [ -f "output/android/mipmap-xxhdpi/launcher-icon.png" ] && echo "✅ Found xxhdpi file" || (echo "❌ Missing xxhdpi file" && exit 1)
           [ -f "output/android/mipmap-xxxhdpi/launcher-icon.png" ] && echo "✅ Found xxxhdpi file" || (echo "❌ Missing xxxhdpi file" && exit 1)
 
+      - name: Clean output Android
+        run: rm -rf output/android
+
       - name: Run CLI tool for Android (use drawable)
         run: |
           mkdir -p output/android

@@ -1,4 +1,4 @@
-use crate::resize::Resize;
+use crate::{context::Context, resize::Resize};
 
 mod android;
 mod flutter;
@@ -23,5 +23,5 @@ impl PlatformFactory {
 }
 
 pub trait Platform {
-    fn create_images(&self, out_dir: &str) -> Result<(), String>;
+    fn create_images(&self, ctx: &Context) -> Result<(), String>;
 }

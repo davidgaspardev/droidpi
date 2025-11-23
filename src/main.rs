@@ -27,7 +27,6 @@ fn main() {
                 println!("arguments: {:?}", ctx.args);
 
                 let src = ctx.get_arg_src();
-                let out_dir = ctx.get_arg_out_dir();
                 let platform_name = ctx.get_arg_platform();
                 let name = ctx.get_arg_name();
 
@@ -37,7 +36,7 @@ fn main() {
                     match platform::PlatformFactory::get_platform_resize(platform_name, img_resize)
                     {
                         Ok(platform_target) => {
-                            let result = platform_target.create_images(out_dir);
+                            let result = platform_target.create_images(&ctx);
 
                             if let Err(msg) = result {
                                 eprint!("{}", msg);

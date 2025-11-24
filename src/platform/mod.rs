@@ -16,6 +16,8 @@ impl PlatformFactory {
         }
 
         if platform.eq("flutter") {
+            // Note: use_drawable flag only applies to Android platform
+            // Flutter uses a fixed directory structure (1.5x, 2.0x, 3.0x, 4.0x)
             return Ok(flutter::FlutterPlatform::new(resize));
         }
 

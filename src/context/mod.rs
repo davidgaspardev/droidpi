@@ -12,11 +12,11 @@ impl Context {
     }
 
     pub fn get_arg_src(&self) -> &str {
-        self.args.src.to_str().unwrap_or("")
+        self.args.src.to_str().expect("Source path contains invalid UTF-8 characters")
     }
 
     pub fn get_arg_out_dir(&self) -> &str {
-        self.args.out_dir.to_str().unwrap_or("")
+        self.args.out_dir.to_str().expect("Output directory path contains invalid UTF-8 characters")
     }
 
     pub fn get_arg_platform(&self) -> &str {

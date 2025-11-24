@@ -11,8 +11,8 @@ pub struct AndroidPlatform {
 impl AndroidPlatform {
     pub fn new(resize: Resize, use_drawable: bool) -> Box<dyn Platform> {
         Box::new(AndroidPlatform { 
-            resize,
-            use_drawable,
+            resize: resize,
+            use_drawable: use_drawable,
         })
     }
     

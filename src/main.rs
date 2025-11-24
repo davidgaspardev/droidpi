@@ -10,13 +10,14 @@ use context::Context;
 fn main() {
     println!("Welcome to droiDPI");
 
-    let result = cli::get_arguments();
-    if let Err(err) = result {
-        eprintln!("Error: {}", err);
-        std::process::exit(1);
-    }
-
-    let args = result.unwrap();
+    let args = match cli::get_arguments() {
+        Ok(args) => args,
+        Err(err) => {
+            eprintln!("Error: {}", err);
+            std::process::exit(1);
+        }
+    };
+    
     let ctx = Context::new(args);
 
     let src = ctx.get_arg_src();

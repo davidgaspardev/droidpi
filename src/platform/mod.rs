@@ -9,9 +9,10 @@ impl PlatformFactory {
     pub fn get_platform_resize(
         platform: &str,
         resize: Resize,
+        use_drawable: bool,
     ) -> Result<Box<dyn Platform>, String> {
         if platform.eq("android") {
-            return Ok(android::AndroidPlatform::new(resize));
+            return Ok(android::AndroidPlatform::new(resize, use_drawable));
         }
 
         if platform.eq("flutter") {

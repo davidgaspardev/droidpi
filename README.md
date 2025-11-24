@@ -25,7 +25,7 @@ Create `my_icon.png` for Flutter:
 
 ### For Android
 
-Create `my_icon.png` for Android:
+Create `my_icon.png` for Android (with mipmap directories by default):
 
 ```bash
 .../mipmap-mdpi/my_icon.png
@@ -35,27 +35,53 @@ Create `my_icon.png` for Android:
 .../mipmap-xxxhdpi/my_icon.png
 ```
 
+Or with `--use-drawable` flag (uses drawable directories):
+
+```bash
+.../drawable-mdpi/my_icon.png
+.../drawable-hdpi/my_icon.png
+.../drawable-xhdpi/my_icon.png
+.../drawable-xxhdpi/my_icon.png
+.../drawable-xxxhdpi/my_icon.png
+```
+
 ## Usage
 
 To resize an image using DroiDPI, use the following command:
 
 ```bash
-droidpi --src <image_path> --outdir <directory_path> --name <image_name> --platform <flutter|android>
+droidpi --src <image_path> --outDir <directory_path> --name <image_name> --platform <flutter|android>
 ```
 
-- `<image_path>`: The path to the input image file.
-- `<directory_path>`: The base directory where the resized images will be stored. The different densities will be created as subdirectories within this base directory, according to the selected platform.
-- `<image_name>`: The desired name for the resized images. The resized images will be saved with this name.
-- `<platform>`: The target platform for which the images will be generated. Supported values: `flutter` or `android`.
+### Options
+
+- `--src <image_path>`: Path to the input image file (.png, .jpg, or .jpeg)
+- `--outDir <directory_path>`: Base directory where resized images will be stored
+- `--name <image_name>`: Desired name for the resized images
+- `--platform <platform>`: Target platform (flutter or android)
+  - `flutter`: Flutter platform - generates images in 1.5x, 2.0x, 3.0x, 4.0x directories
+  - `android`: Android platform - generates images in mipmap-* or drawable-* directories
+- `--use-drawable`: Use drawable directories instead of mipmap for Android (only applies to android platform)
+- `--help`: Display help message
+- `--version`: Show version information
 
 ### Examples
 
 ```bash
 # For Flutter projects
-droidpi --src logo.png --outdir ./assets --name logo --platform flutter
+droidpi --src logo.png --outDir ./assets --name logo --platform flutter
 
-# For native Android projects
-droidpi --src icon.png --outdir ./res --name ic_launcher --platform android
+# For native Android projects (using mipmap)
+droidpi --src icon.png --outDir ./res --name ic_launcher --platform android
+
+# For native Android projects (using drawable)
+droidpi --src icon.png --outDir ./res --name ic_logo --platform android --use-drawable
+
+# Show help
+droidpi --help
+
+# Show version
+droidpi --version
 ```
 
 ## What do I want to do with this?

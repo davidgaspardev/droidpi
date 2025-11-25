@@ -54,10 +54,10 @@ To resize an image using DroiDPI, use the following command:
 droidpi --src <image_path> --outdir <directory_path> --name <image_name> --platform <flutter|android> [--use-drawable]
 ```
 
-- `<image_path>`: The path to the input image file.
-- `<directory_path>`: The base directory where the resized images will be stored. The different densities will be created as subdirectories within this base directory, according to the selected platform.
-- `<image_name>`: The desired name for the resized images. The resized images will be saved with this name.
-- `<platform>`: The target platform for which the images will be generated. Supported values: `flutter` or `android`.
+- `--src <image_path>`: The path to the input image file (.png, .jpg, or .jpeg).
+- `--outdir <directory_path>`: The base directory where the resized images will be stored. The different densities will be created as subdirectories within this base directory, according to the selected platform.
+- `--name <image_name>`: The desired name for the resized images. The resized images will be saved with this name.
+- `--platform <platform>`: The target platform for which the images will be generated. Supported values: `flutter` or `android`.
 - `--use-drawable`: *(Android only, optional)* If present, output images to `drawable-*dpi` directories instead of `mipmap-*dpi`.
 
 ### Examples

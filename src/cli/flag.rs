@@ -15,7 +15,12 @@ impl Flag {
     pub fn from_str(flag_str: &str) -> Option<Flag> {
         match flag_str {
             "--src" => Some(Flag::Src),
-            "--outDir" => Some(Flag::OutDir),
+            "--outdir" => Some(Flag::OutDir),
+            "--outDir" => {
+                // Deprecated: --outDir is still supported for backwards compatibility
+                eprintln!("Warning: --outDir is deprecated. Please use --outdir instead.");
+                Some(Flag::OutDir)
+            }
             "--name" => Some(Flag::Name),
             "--platform" => Some(Flag::Platform),
             "--version" => Some(Flag::Version),
@@ -28,7 +33,7 @@ impl Flag {
     pub fn as_str(&self) -> &'static str {
         match self {
             Flag::Src => "--src",
-            Flag::OutDir => "--outDir",
+            Flag::OutDir => "--outdir",
             Flag::Name => "--name",
             Flag::Platform => "--platform",
             Flag::Version => "--version",

@@ -51,11 +51,11 @@ Creates images in **drawable** directories instead:
 To resize an image using DroiDPI, use the following command:
 
 ```bash
-droidpi --src <image_path> --outDir <directory_path> --name <image_name> --platform <flutter|android> [--use-drawable]
+droidpi --src <image_path> --outdir <directory_path> --name <image_name> --platform <flutter|android> [--use-drawable]
 ```
 
 - `--src <image_path>`: The path to the input image file (.png, .jpg, or .jpeg).
-- `--outDir <directory_path>`: The base directory where the resized images will be stored. The different densities will be created as subdirectories within this base directory, according to the selected platform.
+- `--outdir <directory_path>`: The base directory where the resized images will be stored. The different densities will be created as subdirectories within this base directory, according to the selected platform.
 - `--name <image_name>`: The desired name for the resized images. The resized images will be saved with this name.
 - `--platform <platform>`: The target platform for which the images will be generated. Supported values: `flutter` or `android`.
 - `--use-drawable`: *(Android only, optional)* If present, output images to `drawable-*dpi` directories instead of `mipmap-*dpi`.
@@ -64,13 +64,13 @@ droidpi --src <image_path> --outDir <directory_path> --name <image_name> --platf
 
 ```bash
 # For Flutter projects
-droidpi --src logo.png --outDir ./assets --name logo --platform flutter
+droidpi --src logo.png --outdir ./assets --name logo --platform flutter
 
 # For native Android projects (default: mipmap)
-droidpi --src icon.png --outDir ./res --name ic_launcher --platform android
+droidpi --src icon.png --outdir ./res --name ic_launcher --platform android
 
 # For native Android projects (using drawable directories)
-droidpi --src icon.png --outDir ./res --name ic_launcher --platform android --use-drawable
+droidpi --src icon.png --outdir ./res --name ic_launcher --platform android --use-drawable
 ```
 
 ## What do I want to do with this?

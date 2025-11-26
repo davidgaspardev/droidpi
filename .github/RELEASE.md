@@ -244,8 +244,11 @@ If the workflow fails and you need to publish manually:
 # Ensure you're on the correct commit
 git checkout main
 
+# Set your crates.io token as an environment variable (more secure)
+export CARGO_REGISTRY_TOKEN=YOUR_CRATES_IO_TOKEN
+
 # Publish to crates.io
-cargo publish --token YOUR_CRATES_IO_TOKEN
+cargo publish
 ```
 
 ## GitHub Release Features

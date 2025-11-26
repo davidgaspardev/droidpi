@@ -269,7 +269,7 @@ cargo build --release
 ❌ **DON'T**:
 - Don't share your API token
 - Don't commit tokens to the repository
-- Don't store tokens in environment variables
+- Don't store tokens in unencrypted files or commit them to the repository
 - Don't use overly permissive token scopes
 
 ## Next Steps

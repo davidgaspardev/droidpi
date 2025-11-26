@@ -95,4 +95,4 @@ cargo publish --dry-run
 
 ## Need Help?
 
-See [RELEASE.md](.github/RELEASE.md) for detailed documentation.
+See [RELEASE.md](RELEASE.md) for detailed documentation.

@@ -1,4 +1,4 @@
-use crate::{context::Context, resize::Resize};
+use crate::{cli::Flag, context::Context, resize::Resize};
 use std::{fs, io::ErrorKind};
 
 use super::Platform;
@@ -16,7 +16,7 @@ impl AndroidPlatform {
 impl Platform for AndroidPlatform {
     fn create_images(&self, ctx: &Context) -> Result<(), String> {
         let out_dir = ctx.get_arg_out_dir();
-        let dir_base = if ctx.args.contains_key("--use-drawable") {
+        let dir_base = if ctx.args.contains_key(Flag::UseDrawable.as_str()) {
             "drawable"
         } else {
             "mipmap"

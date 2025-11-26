@@ -13,7 +13,7 @@ cargo install droidpi
 Or install a specific version:
 
 ```bash
-cargo install droidpi@0.1.0
+cargo install droidpi@0.1.2
 ```
 
 ## Features

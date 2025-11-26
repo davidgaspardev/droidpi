@@ -276,7 +276,7 @@ cargo build --release
 
 After successful setup:
 
-1. Read [RELEASE.md](.github/RELEASE.md) for detailed release process
+1. Read [RELEASE.md](RELEASE.md) for detailed release process
 2. Use [RELEASE_CHECKLIST.md](.github/RELEASE_CHECKLIST.md) for quick reference
 3. Consider setting up a CHANGELOG.md for tracking changes
 4. Plan your version numbering strategy

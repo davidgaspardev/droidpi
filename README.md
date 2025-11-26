@@ -2,6 +2,20 @@
 
 DroiDPI is a command-line tool for resizing images to different screen densities commonly used in mobile application development. It simplifies the process of generating multiple sizes of icons for Flutter and native Android projects, helping to improve performance on various devices.
 
+## Installation
+
+Install DroiDPI using Cargo:
+
+```bash
+cargo install droidpi
+```
+
+Or install a specific version:
+
+```bash
+cargo install droidpi@0.1.0
+```
+
 ## Features
 
 - Resizes images to five different densities: mdpi, hdpi, xhdpi, xxhdpi, and xxxhdpi.
@@ -80,3 +94,48 @@ I'm a mobile developer, and I always have to deal with performance on more humbl
 It's always been a pain, but it's important, and that's why I want to create this!
 
 For always enjoying low-level development, came the idea of combining business with pleasure: develop a binary that optimizes my work.
+
+## Contributing
+
+Contributions are welcome! Please feel free to submit a Pull Request.
+
+### Development Setup
+
+1. Clone the repository:
+   ```bash
+   git clone https://github.com/davidgaspardev/droidpi.git
+   cd droidpi
+   ```
+
+2. Build the project:
+   ```bash
+   cargo build
+   ```
+
+3. Run tests:
+   ```bash
+   cargo test
+   ```
+
+4. Run the CLI locally:
+   ```bash
+   cargo run -- --src <image_path> --outdir <directory_path> --name <image_name> --platform <platform>
+   ```
+
+### Releasing
+
+This project uses automated releases via GitHub Actions. See [`.github/RELEASE.md`](.github/RELEASE.md) for detailed instructions on publishing new versions.
+
+## License
+
+This project is licensed under the MIT License - see the [LICENSE-MIT](LICENSE-MIT) file for details.
+
+## Author
+
+David Gaspar - [davidgaspar.dev@gmail.com](mailto:davidgaspar.dev@gmail.com)
+
+## Links
+
+- [crates.io](https://crates.io/crates/droidpi)
+- [Repository](https://github.com/davidgaspardev/droidpi)
+- [Issues](https://github.com/davidgaspardev/droidpi/issues)

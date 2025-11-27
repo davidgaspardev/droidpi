@@ -7,8 +7,8 @@ pub struct FlutterPlatform {
 }
 
 impl FlutterPlatform {
-    pub fn new(resize: Resize) -> Box<dyn Platform> {
-        Box::new(FlutterPlatform { resize: resize })
+    pub fn create(resize: Resize) -> Box<dyn Platform> {
+        Box::new(FlutterPlatform { resize })
     }
 }
 
@@ -16,13 +16,14 @@ impl Platform for FlutterPlatform {
     fn create_images(&self, ctx: &Context) -> Result<(), String> {
         let out_dir = ctx.get_arg_out_dir();
 
-        return match fs::create_dir_all(out_dir) {
+        match fs::create_dir_all(out_dir) {
             Ok(_) => {
                 self.resize.create_mdpi(&format!("{}/1.5x", out_dir));
                 self.resize.create_hdpi(&format!("{}/2.0x", out_dir));
                 self.resize.create_xhdpi(&format!("{}/3.0x", out_dir));
                 self.resize.create_xxhdpi(&format!("{}/4.0x", out_dir));
-                self.resize.create_xxxhdpi(&format!("{}", out_dir));
+                self.resize
+                    .create_xxxhdpi(&format!("{}", out_dir.to_string()));
 
                 Ok(())
             }
@@ -33,6 +34,6 @@ impl Platform for FlutterPlatform {
                 }
                 _ => panic!("Error creating directory: {}", err),
             },
-        };
+        }
     }
 }

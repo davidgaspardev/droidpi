@@ -11,11 +11,11 @@ impl PlatformFactory {
         resize: Resize,
     ) -> Result<Box<dyn Platform>, String> {
         if platform.eq("android") {
-            return Ok(android::AndroidPlatform::new(resize));
+            return Ok(android::AndroidPlatform::create(resize));
         }
 
         if platform.eq("flutter") {
-            return Ok(flutter::FlutterPlatform::new(resize));
+            return Ok(flutter::FlutterPlatform::create(resize));
         }
 
         Err(format!("Platform '{}' not found", platform))

@@ -1,0 +1,188 @@
+name: Release and Publish
+
+on:
+  push:
+    tags:
+      - 'v*.*.*'
+    branches:
+      - main
+  workflow_dispatch:
+
+env:
+  CARGO_TERM_COLOR: always
+
+jobs:
+  validate:
+    name: Validate Release
+    runs-on: ubuntu-latest
+    if: startsWith(github.ref, 'refs/tags/')
+    outputs:
+      version: ${{ steps.get_version.outputs.version }}
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Get version from tag
+        id: get_version
+        run: echo "version=${GITHUB_REF#refs/tags/v}" >> $GITHUB_OUTPUT
+
+      - name: Validate version matches Cargo.toml
+        run: |
+          CARGO_VERSION=$(grep '^version = ' Cargo.toml | head -1 | sed 's/version = "\(.*\)"/\1/')
+          TAG_VERSION="${{ steps.get_version.outputs.version }}"
+
+          echo "Cargo.toml version: $CARGO_VERSION"
+          echo "Git tag version: $TAG_VERSION"
+
+          if [ "$CARGO_VERSION" != "$TAG_VERSION" ]; then
+            echo "❌ Version mismatch! Cargo.toml has $CARGO_VERSION but tag is v$TAG_VERSION"
+            exit 1
+          fi
+
+          echo "✅ Versions match!"
+
+  test:
+    name: Run Tests
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Rust toolchain
+        uses: actions-rust-lang/setup-rust-toolchain@v1
+        with:
+          toolchain: stable
+
+      - name: Run cargo check
+        run: cargo check --all-features
+
+      - name: Run cargo test
+        run: cargo test --all-features
+
+      - name: Run cargo clippy
+        run: cargo clippy --all-features -- -D warnings
+
+      - name: Build release binary
+        run: cargo build --release
+
+      - name: Download test icon
+        run: |
+          mkdir -p input
+          curl -L -o input/test-icon.png https://firebasestorage.googleapis.com/v0/b/myself-dg.appspot.com/o/my-website%2FoptionalParameters.png?alt=media&token=fe276d41-d20e-4e7f-a13b-7302a1508b2c
+
+      - name: Integration test - Flutter
+        run: |
+          mkdir -p output/flutter
+          ./target/release/droidpi --src input/test-icon.png --outdir output/flutter --platform flutter --name launcher-icon
+
+          count=$(find output/flutter -type f -name "launcher-icon.png" | wc -l)
+          if [ "$count" -ne 5 ]; then
+            echo "❌ Expected 5 files for Flutter, found $count"
+            exit 1
+          fi
+          echo "✅ Flutter integration test passed"
+
+      - name: Integration test - Android
+        run: |
+          mkdir -p output/android
+          ./target/release/droidpi --src input/test-icon.png --outdir output/android --platform android --name launcher-icon
+
+          count=$(find output/android -type f -name "launcher-icon.png" | wc -l)
+          if [ "$count" -ne 5 ]; then
+            echo "❌ Expected 5 files for Android, found $count"
+            exit 1
+          fi
+          echo "✅ Android integration test passed"
+
+  publish-crates:
+    name: Publish to crates.io
+    runs-on: ubuntu-latest
+    needs: [validate, test]
+    if: startsWith(github.ref, 'refs/tags/') || github.ref == 'refs/heads/main'
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Rust toolchain
+        uses: actions-rust-lang/setup-rust-toolchain@v1
+        with:
+          toolchain: stable
+
+      - name: Verify package can be published
+        run: cargo publish --dry-run
+
+      - name: Publish to crates.io
+        env:
+          CARGO_REGISTRY_TOKEN: ${{ secrets.CARGO_REGISTRY_TOKEN }}
+        run: |
+          if [ -z "$CARGO_REGISTRY_TOKEN" ]; then
+            echo "❌ CARGO_REGISTRY_TOKEN secret is not set"
+            exit 1
+          fi
+
+          cargo publish
+
+  create-github-release:
+    name: Create GitHub Release
+    runs-on: ubuntu-latest
+    needs: [validate, test, publish-crates]
+    if: startsWith(github.ref, 'refs/tags/')
+    permissions:
+      contents: write
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Generate changelog
+        id: changelog
+        run: |
+          VERSION="${{ needs.validate.outputs.version }}"
+          PREV_TAG=$(git describe --tags --abbrev=0 HEAD^ 2>/dev/null || echo "")
+
+          echo "## What's Changed" > CHANGELOG.md
+          echo "" >> CHANGELOG.md
+
+          if [ -z "$PREV_TAG" ]; then
+            echo "🎉 Initial release of droidpi v$VERSION" >> CHANGELOG.md
+          else
+            echo "Changes since $PREV_TAG:" >> CHANGELOG.md
+            echo "" >> CHANGELOG.md
+            git log $PREV_TAG..HEAD --pretty=format:"- %s (%h)" --no-merges >> CHANGELOG.md
+          fi
+
+          echo "" >> CHANGELOG.md
+          echo "## Installation" >> CHANGELOG.md
+          echo "" >> CHANGELOG.md
+          echo '```sh' >> CHANGELOG.md
+          echo "cargo install droidpi@$VERSION" >> CHANGELOG.md
+          echo '```' >> CHANGELOG.md
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v1
+        with:
+          body_path: CHANGELOG.md
+          draft: false
+          prerelease: false
+          generate_release_notes: true
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+  notify-completion:
+    name: Notify Completion
+    runs-on: ubuntu-latest
+    needs: [create-github-release]
+    if: always() && startsWith(github.ref, 'refs/tags/')
+    steps:
+      - name: Check workflow status
+        run: |
+          if [ "${{ needs.create-github-release.result }}" == "success" ]; then
+            echo "🎉 Release published successfully!"
+            echo "📦 Version: ${{ needs.validate.outputs.version }}"
+            echo "🔗 crates.io: https://crates.io/crates/droidpi"
+            echo "🔗 GitHub: ${{ github.server_url }}/${{ github.repository }}/releases/tag/${{ github.ref_name }}"
+          else
+            echo "❌ Release workflow failed"
+            exit 1
+          fi

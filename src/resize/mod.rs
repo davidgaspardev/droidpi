@@ -27,8 +27,8 @@ impl Resize {
     }
 
     pub fn create_xxxhdpi(&self, directory: &str) {
-        if !fs::metadata(&directory).is_ok() {
-            match fs::create_dir(&directory) {
+        if fs::metadata(directory).is_err() {
+            match fs::create_dir(directory) {
                 Ok(_) => println!("Directory created successfully: {}", directory),
                 Err(err) => println!("Failed to create directory: {}", err),
             }
@@ -40,8 +40,8 @@ impl Resize {
     }
 
     pub fn create_xxhdpi(&self, directory: &str) {
-        if !fs::metadata(&directory).is_ok() {
-            match fs::create_dir(&directory) {
+        if fs::metadata(directory).is_err() {
+            match fs::create_dir(directory) {
                 Ok(_) => println!("Directory created successfully: {}", directory),
                 Err(err) => println!("Failed to create directory: {}", err),
             }
@@ -61,8 +61,8 @@ impl Resize {
     }
 
     pub fn create_xhdpi(&self, directory: &str) {
-        if !fs::metadata(&directory).is_ok() {
-            match fs::create_dir(&directory) {
+        if fs::metadata(directory).is_err() {
+            match fs::create_dir(directory) {
                 Ok(_) => println!("Directory created successfully: {}", directory),
                 Err(err) => println!("Failed to create directory: {}", err),
             }
@@ -82,8 +82,8 @@ impl Resize {
     }
 
     pub fn create_hdpi(&self, directory: &str) {
-        if !fs::metadata(&directory).is_ok() {
-            match fs::create_dir(&directory) {
+        if fs::metadata(directory).is_err() {
+            match fs::create_dir(directory) {
                 Ok(_) => println!("Directory created successfully: {}", directory),
                 Err(err) => println!("Failed to create directory: {}", err),
             }
@@ -103,8 +103,8 @@ impl Resize {
     }
 
     pub fn create_mdpi(&self, directory: &str) {
-        if !fs::metadata(&directory).is_ok() {
-            match fs::create_dir(&directory) {
+        if fs::metadata(directory).is_err() {
+            match fs::create_dir(directory) {
                 Ok(_) => println!("Directory created successfully: {}", directory),
                 Err(err) => println!("Failed to create directory: {}", err),
             }

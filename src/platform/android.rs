@@ -8,8 +8,8 @@ pub struct AndroidPlatform {
 }
 
 impl AndroidPlatform {
-    pub fn new(resize: Resize) -> Box<dyn Platform> {
-        Box::new(AndroidPlatform { resize: resize })
+    pub fn create(resize: Resize) -> Box<dyn Platform> {
+        Box::new(AndroidPlatform { resize })
     }
 }
 
@@ -23,7 +23,7 @@ impl Platform for AndroidPlatform {
         };
         let final_dir = format!("{}/{}", out_dir, dir_base);
 
-        return match fs::create_dir_all(out_dir) {
+        match fs::create_dir_all(out_dir) {
             Ok(_) => {
                 self.resize.create_mdpi(&format!("{}-mdpi", final_dir));
                 self.resize.create_hdpi(&format!("{}-hdpi", final_dir));
@@ -41,6 +41,6 @@ impl Platform for AndroidPlatform {
                 }
                 _ => Err(format!("Error creating directory: {}", err)),
             },
-        };
+        }
     }
 }

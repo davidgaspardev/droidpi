@@ -43,6 +43,6 @@ impl Flag {
     }
 
     pub fn is_boolean(&self) -> bool {
-        BOOLEAN_FLAGS.contains(&self)
+        BOOLEAN_FLAGS.contains(self)
     }
 }

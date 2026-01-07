@@ -32,7 +32,8 @@ fn main() {
                 let name = ctx.get_arg_name();
 
                 if let Ok(img) = image::open(src) {
-                    let img_resize = resize::Resize::new(img, name.to_string());
+                    let img_resize =
+                        resize::Resize::new(img, name.to_string(), ctx.has_arg_round());
 
                     match platform::PlatformFactory::get_platform_resize(platform_name, img_resize)
                     {

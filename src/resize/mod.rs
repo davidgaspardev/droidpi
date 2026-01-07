@@ -17,7 +17,7 @@ pub struct Resize {
 }
 
 impl Resize {
-    pub fn new(xxxhdpi_image: DynamicImage, name: String) -> Self {
+    pub fn new(xxxhdpi_image: DynamicImage, name: String, is_round: bool) -> Self {
         let (width, height) = xxxhdpi_image.dimensions();
 
         Resize {
@@ -25,12 +25,8 @@ impl Resize {
             name,
             width,
             height,
-            is_round: false,
+            is_round,
         }
-    }
-
-    pub fn set_round(&mut self, is_round: bool) {
-        self.is_round = is_round;
     }
 
     fn save_image(&self, img: &DynamicImage, path: String) {

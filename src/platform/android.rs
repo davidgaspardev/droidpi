@@ -1,4 +1,4 @@
-use crate::resize::Resize;
+use crate::{cli::Flag, context::Context, resize::Resize};
 use std::{fs, io::ErrorKind};
 
 use super::Platform;
@@ -8,23 +8,29 @@ pub struct AndroidPlatform {
 }
 
 impl AndroidPlatform {
-    pub fn new(resize: Resize) -> Box<dyn Platform> {
-        Box::new(AndroidPlatform { resize: resize })
+    pub fn create(resize: Resize) -> Box<dyn Platform> {
+        Box::new(AndroidPlatform { resize })
     }
 }
 
 impl Platform for AndroidPlatform {
-    fn create_images(&self, out_dir: &str) -> Result<(), String> {
-        return match fs::create_dir_all(out_dir) {
+    fn create_images(&self, ctx: &Context) -> Result<(), String> {
+        let out_dir = ctx.get_arg_out_dir();
+        let dir_base = if ctx.args.contains_key(Flag::UseDrawable.as_str()) {
+            "drawable"
+        } else {
+            "mipmap"
+        };
+        let final_dir = format!("{}/{}", out_dir, dir_base);
+
+        match fs::create_dir_all(out_dir) {
             Ok(_) => {
-                self.resize.create_mdpi(&format!("{}/mipmap-mdpi", out_dir));
-                self.resize.create_hdpi(&format!("{}/mipmap-hdpi", out_dir));
+                self.resize.create_mdpi(&format!("{}-mdpi", final_dir));
+                self.resize.create_hdpi(&format!("{}-hdpi", final_dir));
+                self.resize.create_xhdpi(&format!("{}-xhdpi", final_dir));
+                self.resize.create_xxhdpi(&format!("{}-xxhdpi", final_dir));
                 self.resize
-                    .create_xhdpi(&format!("{}/mipmap-xhdpi", out_dir));
-                self.resize
-                    .create_xxhdpi(&format!("{}/mipmap-xxhdpi", out_dir));
-                self.resize
-                    .create_xxxhdpi(&format!("{}/mipmap-xxxhdpi", out_dir));
+                    .create_xxxhdpi(&format!("{}-xxxhdpi", final_dir));
 
                 Ok(())
             }
@@ -35,6 +41,6 @@ impl Platform for AndroidPlatform {
                 }
                 _ => Err(format!("Error creating directory: {}", err)),
             },
-        };
+        }
     }
 }

@@ -8,7 +8,7 @@ use std::path::Path;
 pub fn get_arguments() -> Result<HashMap<String, Option<String>>, String> {
     let args: Vec<String> = env::args().collect();
 
-    return load_args(args);
+    load_args(args)
 }
 
 /// Load the arguments from the command line to a HashMap.
@@ -50,14 +50,14 @@ fn load_args(args: Vec<String>) -> Result<HashMap<String, Option<String>>, Strin
 }
 
 fn get_args_number(args: &[String]) -> u8 {
-    return args.iter().filter(move |arg| arg.starts_with("--")).count() as u8;
+    args.iter().filter(move |arg| arg.starts_with("--")).count() as u8
 }
 
-fn get_flag_from_arg(argkey: &String) -> Option<Flag> {
+fn get_flag_from_arg(argkey: &str) -> Option<Flag> {
     Flag::from_str(argkey)
 }
 
-fn is_argvalue_valid(argkey: &String, argvalue: &String) -> bool {
+fn is_argvalue_valid(argkey: &str, argvalue: &String) -> bool {
     match Flag::from_str(argkey) {
         Some(Flag::Src) => Path::new(argvalue).is_file() && is_path_imagefile(argvalue),
         Some(Flag::OutDir) => Path::new(argvalue).is_dir(),
@@ -67,7 +67,7 @@ fn is_argvalue_valid(argkey: &String, argvalue: &String) -> bool {
     }
 }
 
-fn is_path_imagefile(argvalue: &String) -> bool {
+fn is_path_imagefile(argvalue: &str) -> bool {
     let path_ext: String = argvalue.chars().skip(argvalue.len() - 4).collect();
     path_ext == ".png" || path_ext == ".jpg" || path_ext == "jpeg"
 }

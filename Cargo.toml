@@ -1,11 +1,16 @@
 [package]
 name = "droidpi"
 description = "A command-line tool for resizing images to multiple screen densities for Flutter and native Android projects. Automates icon generation for improved mobile performance."
-version = "0.1.0"
+version = "0.1.2"
 edition = "2021"
 license = "MIT"
 authors = ["David Gaspar <davidgaspar.dev@gmail.com>"]
 repository = "https://github.com/davidgaspardev/droidpi"
+homepage = "https://github.com/davidgaspardev/droidpi"
+documentation = "https://github.com/davidgaspardev/droidpi#readme"
+readme = "README.md"
+keywords = ["cli", "image", "android", "flutter", "icon"]
+categories = ["command-line-utilities", "multimedia::images"]
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 

@@ -1,6 +1,7 @@
 extern crate image;
 
 mod cli;
+mod clip;
 mod context;
 mod help;
 mod platform;

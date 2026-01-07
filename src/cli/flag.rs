@@ -7,9 +7,10 @@ pub enum Flag {
     Version,
     Help,
     UseDrawable,
+    Round,
 }
 
-const BOOLEAN_FLAGS: [Flag; 3] = [Flag::Version, Flag::Help, Flag::UseDrawable];
+const BOOLEAN_FLAGS: [Flag; 4] = [Flag::Version, Flag::Help, Flag::UseDrawable, Flag::Round];
 
 impl Flag {
     pub fn from_str(flag_str: &str) -> Option<Flag> {
@@ -26,6 +27,7 @@ impl Flag {
             "--version" => Some(Flag::Version),
             "--help" => Some(Flag::Help),
             "--use-drawable" => Some(Flag::UseDrawable),
+            "--round" => Some(Flag::Round),
             _ => None,
         }
     }
@@ -39,6 +41,7 @@ impl Flag {
             Flag::Version => "--version",
             Flag::Help => "--help",
             Flag::UseDrawable => "--use-drawable",
+            Flag::Round => "--round",
         }
     }
 

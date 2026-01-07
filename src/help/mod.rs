@@ -14,6 +14,7 @@ pub fn show_help(name: &str, version: &str) {
     println!("  --outdir <directory_path>  Base directory where resized images will be stored");
     println!("  --name <image_name>        Desired name for the resized images");
     println!("  --platform <platform>      Target platform (flutter or android)");
+    println!("  --round                    Round the corners of the image");
     println!("  --use-drawable             (Android only) Use drawable-*dpi directories instead of mipmap-*dpi");
     println!("  --version                  Show the version information");
     println!("  --help                     Display this help message");

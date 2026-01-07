@@ -65,7 +65,7 @@ Creates images in **drawable** directories instead:
 To resize an image using DroiDPI, use the following command:
 
 ```bash
-droidpi --src <image_path> --outdir <directory_path> --name <image_name> --platform <flutter|android> [--use-drawable]
+droidpi --src <image_path> --outdir <directory_path> --name <image_name> --platform <flutter|android> [--use-drawable] [--round]
 ```
 
 - `--src <image_path>`: The path to the input image file (.png, .jpg, or .jpeg).
@@ -73,6 +73,7 @@ droidpi --src <image_path> --outdir <directory_path> --name <image_name> --platf
 - `--name <image_name>`: The desired name for the resized images. The resized images will be saved with this name.
 - `--platform <platform>`: The target platform for which the images will be generated. Supported values: `flutter` or `android`.
 - `--use-drawable`: *(Android only, optional)* If present, output images to `drawable-*dpi` directories instead of `mipmap-*dpi`.
+- `--round`: *(Android only, optional)* If present, round the corners of the output images.
 
 ### Examples
 
@@ -85,6 +86,12 @@ droidpi --src icon.png --outdir ./res --name ic_launcher --platform android
 
 # For native Android projects (using drawable directories)
 droidpi --src icon.png --outdir ./res --name ic_launcher --platform android --use-drawable
+
+# For native Android projects (round corners)
+droidpi --src icon.png --outdir ./res --name ic_launcher --platform android --use-drawable --round
+
+# For native Android projects (round corners and drawable directories)
+droidpi --src icon.png --outdir ./res --name ic_launcher --platform android --use-drawable --round
 ```
 
 ## What do I want to do with this?

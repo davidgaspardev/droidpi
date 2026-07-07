@@ -14,7 +14,7 @@ jobs:
 
     steps:
       # Step 1: Checkout the code
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v5
 
       # Step 2: Set up rust
       - uses: actions-rust-lang/setup-rust-toolchain@v1

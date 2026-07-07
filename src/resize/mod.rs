@@ -13,11 +13,15 @@ pub struct Resize {
     name: String,
     width: u32,
     height: u32,
-    is_round: bool,
 }
 
 impl Resize {
     pub fn new(xxxhdpi_image: DynamicImage, name: String, is_round: bool) -> Self {
+        let xxxhdpi_image = if is_round {
+            DynamicImage::ImageRgba8(clip_to_circle(&xxxhdpi_image))
+        } else {
+            xxxhdpi_image
+        };
         let (width, height) = xxxhdpi_image.dimensions();
 
         Resize {
@@ -25,16 +29,6 @@ impl Resize {
             name,
             width,
             height,
-            is_round,
-        }
-    }
-
-    fn save_image(&self, img: &DynamicImage, path: String) {
-        if self.is_round {
-            let circular_img = clip_to_circle(img);
-            circular_img.save(path).unwrap();
-        } else {
-            img.save(path).unwrap();
         }
     }
 
@@ -46,10 +40,9 @@ impl Resize {
             }
         }
 
-        self.save_image(
-            &self.xxxhdpi_img,
-            format!("{}/{}.png", directory, self.name),
-        );
+        self.xxxhdpi_img
+            .save(format!("{}/{}.png", directory, self.name))
+            .unwrap();
     }
 
     pub fn create_xxhdpi(&self, directory: &str) {
@@ -69,7 +62,9 @@ impl Resize {
             image::imageops::FilterType::CatmullRom,
         );
 
-        self.save_image(&xxhdpi_image, format!("{}/{}.png", directory, self.name));
+        xxhdpi_image
+            .save(format!("{}/{}.png", directory, self.name))
+            .unwrap();
     }
 
     pub fn create_xhdpi(&self, directory: &str) {
@@ -89,7 +84,9 @@ impl Resize {
             image::imageops::FilterType::CatmullRom,
         );
 
-        self.save_image(&xhdpi_image, format!("{}/{}.png", directory, self.name));
+        xhdpi_image
+            .save(format!("{}/{}.png", directory, self.name))
+            .unwrap();
     }
 
     pub fn create_hdpi(&self, directory: &str) {
@@ -109,7 +106,9 @@ impl Resize {
             image::imageops::FilterType::CatmullRom,
         );
 
-        self.save_image(&hdpi_image, format!("{}/{}.png", directory, self.name));
+        hdpi_image
+            .save(format!("{}/{}.png", directory, self.name))
+            .unwrap();
     }
 
     pub fn create_mdpi(&self, directory: &str) {
@@ -129,6 +128,8 @@ impl Resize {
             image::imageops::FilterType::CatmullRom,
         );
 
-        self.save_image(&mdpi_image, format!("{}/{}.png", directory, self.name));
+        mdpi_image
+            .save(format!("{}/{}.png", directory, self.name))
+            .unwrap();
     }
 }

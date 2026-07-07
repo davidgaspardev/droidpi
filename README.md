@@ -87,8 +87,8 @@ droidpi --src icon.png --outdir ./res --name ic_launcher --platform android
 # For native Android projects (using drawable directories)
 droidpi --src icon.png --outdir ./res --name ic_launcher --platform android --use-drawable
 
-# For native Android projects (round corners)
-droidpi --src icon.png --outdir ./res --name ic_launcher --platform android --use-drawable --round
+# For native Android projects (round corners, mipmap directories)
+droidpi --src icon.png --outdir ./res --name ic_launcher --platform android --round
 
 # For native Android projects (round corners and drawable directories)
 droidpi --src icon.png --outdir ./res --name ic_launcher --platform android --use-drawable --round

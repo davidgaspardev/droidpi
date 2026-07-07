@@ -8,12 +8,13 @@ pub fn show_help(name: &str, version: &str) {
     println!("\nDroiDPI is a command-line tool for resizing images to different screen densities commonly used in mobile application development.");
     println!("It simplifies the process of generating multiple sizes of icons for Flutter and native Android projects.");
     println!("\nUSAGE:");
-    println!("  droidpi --src <image_path> --outdir <directory_path> --name <image_name> --platform <flutter|android> [--use-drawable]");
+    println!("  droidpi --src <image_path> --outdir <directory_path> --name <image_name> --platform <flutter|android> [--use-drawable] [--round]");
     println!("\nOPTIONS:");
     println!("  --src <image_path>         Path to the input image file (.png, .jpg, or .jpeg)");
     println!("  --outdir <directory_path>  Base directory where resized images will be stored");
     println!("  --name <image_name>        Desired name for the resized images");
     println!("  --platform <platform>      Target platform (flutter or android)");
+    println!("  --round                    Round the corners of the image");
     println!("  --use-drawable             (Android only) Use drawable-*dpi directories instead of mipmap-*dpi");
     println!("  --version                  Show the version information");
     println!("  --help                     Display this help message");
@@ -60,13 +61,13 @@ pub fn show_help(name: &str, version: &str) {
     println!("\nNOTES:");
     println!("  • The source image should preferably be in the highest resolution (xxxhdpi/4.0x)");
     println!("  • The tool will automatically create all necessary subdirectories");
-    println!("  • All arguments are required except --version, --help, and --use-drawable");
+    println!("  • All arguments are required except --version, --help, --use-drawable, and --round");
     println!("  • The --use-drawable flag only applies to Android platform");
 }
 
 /// Display a short usage message for error situations
 pub fn show_short_help() {
-    println!("Usage: droidpi --src <image_path> --outdir <directory_path> --name <image_name> --platform <flutter|android> [--use-drawable]");
+    println!("Usage: droidpi --src <image_path> --outdir <directory_path> --name <image_name> --platform <flutter|android> [--use-drawable] [--round]");
     println!("Run with --help for more information.");
 }
 

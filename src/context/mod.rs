@@ -60,4 +60,8 @@ impl Context {
     pub fn get_arg_name(&self) -> &String {
         self.get_required_arg(Flag::Name)
     }
+
+    pub fn has_arg_round(&self) -> bool {
+        self.args.contains_key(Flag::Round.as_str())
+    }
 }

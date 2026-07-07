@@ -1,3 +1,4 @@
+use crate::clip::clip_to_circle;
 use image::{DynamicImage, GenericImageView};
 use std::fs;
 
@@ -15,7 +16,12 @@ pub struct Resize {
 }
 
 impl Resize {
-    pub fn new(xxxhdpi_image: DynamicImage, name: String) -> Self {
+    pub fn new(xxxhdpi_image: DynamicImage, name: String, is_round: bool) -> Self {
+        let xxxhdpi_image = if is_round {
+            DynamicImage::ImageRgba8(clip_to_circle(&xxxhdpi_image))
+        } else {
+            xxxhdpi_image
+        };
         let (width, height) = xxxhdpi_image.dimensions();
 
         Resize {
@@ -55,6 +61,7 @@ impl Resize {
             new_height,
             image::imageops::FilterType::CatmullRom,
         );
+
         xxhdpi_image
             .save(format!("{}/{}.png", directory, self.name))
             .unwrap();
@@ -76,6 +83,7 @@ impl Resize {
             new_height,
             image::imageops::FilterType::CatmullRom,
         );
+
         xhdpi_image
             .save(format!("{}/{}.png", directory, self.name))
             .unwrap();
@@ -97,6 +105,7 @@ impl Resize {
             new_height,
             image::imageops::FilterType::CatmullRom,
         );
+
         hdpi_image
             .save(format!("{}/{}.png", directory, self.name))
             .unwrap();
@@ -118,6 +127,7 @@ impl Resize {
             new_height,
             image::imageops::FilterType::CatmullRom,
         );
+
         mdpi_image
             .save(format!("{}/{}.png", directory, self.name))
             .unwrap();
